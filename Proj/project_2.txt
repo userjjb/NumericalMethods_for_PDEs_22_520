@@ -1,0 +1,704 @@
+Project 2: One dimensional Euler equations with a Shock 
+- Anand Dhariya 
+ME 523: Computational Fluid Dynamics 1 
+November 21, 2007 
+
+Anand Dhariya 
+Project 2: One Dimensional Euler equations with a shock 
+ME:523 
+One-Dimensional Euler Equations: 
+We have to write a code to solve the 1-D Euler equation given by: 
+...................... 
+...... ...... .......... ..
+........ ...... .... .......... .............. ..
+.............. 
+A typical 1-D shock tube problem is considered to check the validity of code. The problem 
+involves a shock tube with both ends open and containing a diatomic gas (say air). In the 
+centre of the tube, there is a wall. The conditions on either sides of wall at time t=0 are 
+given as: ......10..; .... ..10..; .... ..1; .... ..0.01; .... ...... ..0 
+At time t=0, the centre wall is broken and a shock-expansion waves are formed. MATLAB 
+codes are written using Lax-Friedrichs method and Lax-Wendroff II method to solve the 
+euler equations and get plots of the flow parameters. This plots are then compared with 
+results obtained by Hirsch using exact Riemann solver. 
+Once the q and F matrix are formed, we integrate in time by step ‘dt’ and update these 
+matrices at each time step. The time step is evaluated using the CFL number and spatial grid 
+size h as: ........m..a..x .......... 
+where a=speed of sound=...... 
+Once the final time is reached, the density, velocity, pressure and energy can be obtained 
+from the q and F matrices. However, the Mach number, Mass flow rate and Entropy needs 
+to be calculated. The equations for these variables are as follows: 
+Mass flow rate, ........ 
+Mach number, ........ .. 
+The entropy for a reversible process with respect to a reference condition is given as: .........11ln......................1ln .............. 
+Here I have taken the reference state as standard atmospheric pressure and density at sea 
+level. So, ........ ..101325........ and ........ ..1.225 .......... 
+The following pages explain the results of Lax-Friedrichs and Lax-Wendroff-II methods. 
+Anand Dhariya 
+Project 2: One Dimensional Euler equations: Lax-Friedrichs 
+ME:523 
+Part A: Lax-Friedrichs method: 
+In this method we update the q matrix in each time step as: .............. ..
+............................................................. 
+The flowchart shows the various steps of the algorithm. 
+DEFINE CFL, OTHER PARAMETERS, 
+GIVE INITIAL CONDITIONS 
+t=0, START TIME INTEGRATION 
+DEFINE q AND F MATRIX 
+UPDATE q MATRIX USING LAX-FRIEDRICHS 
+UPDATE FLOW PARAMETERS ., u, p 
+AND E 
+START 
+t = t + dt 
+Is t = tf ? 
+CALCULATE ADDITIONAL VARIABLES 
+LIKE ENTROPY ETC. AND PLOT 
+END 
+CALCULATE SOUND SPPED ‘a’ AND 
+CALCULATE ‘dt’ USING CFL AND ‘a’ 
+YES 
+NO 
+Anand Dhariya 
+Project 2: One Dimensional Euler equations:Lax-Friedrichs 
+ME:523 
+Effect of changing spatial grid resolution: 
+The results of this method are plotted for 3 spatial resolutions, viz. n=201, n=401 and n=601 
+keeping the CFL number fixed at 0.34. It is observed that refining the grid size enables to 
+better capture the steep gradients of the solution. Thus a higher grid resolution is favorable. 
+Effect of changing CFL number: 
+Next the grid resolution is fixed at n=601 and the CFL number is varied. Since the grid size is 
+fixed, changing the CFL number amounts to changing the time step dt. The results are seen 
+only for the velocity, u plot since the fine variations due to change in CFL are best seen in 
+this plot. The solutions are plotted for 3 different CFL numbers viz 
+CFL=0.05 (dt=2.2272e-006); CFL= 0.15 (dt=6.6815e-006); CFL= 0.35 (dt= 1.5590e-005). 
+It is observed that reducing the CFL number or dt leads to a more diffusive curve. This is 
+counterintuitive but can be explained by taking into consideration the accumulation of 
+rounding errors in MATLAB. At large CFL numbers, wiggles are observed in the solution as 
+shown in attached figure. 
+Conclusion: 
+The Lax Friedrichs method is diffusive due to presence of numerical viscosity which is 
+inherent to the finite-difference equation used. Due to this diffusive nature, monotonicity is 
+maintained however the scheme fails to represent the steep gradients faithfully. 
+
+11/21/07 7:32 AM D:\My Documents\ME 523\proj22\pro_2a.m 1 of 2 
+%-------------------------------------------------------------------------% 
+% Project 2, Part (a):Lax-Friedrichs method to solve 1-D Euler equations 
+% ME-523 Computational Fluid Dynamics - 1 
+% by- Anand Dhariya 
+% Date: 21/11/2007 
+%-------------------------------------------------------------------------% 
+%Number of grid points 
+%Length of domain 
+%Spatial step size 
+%CFL number for stability 
+%Final time 
+%Ratio of specific heats for ideal di-atomic gas 
+%-------------------------------------------------------------------------% 
+% Define intial conditions 
+%-------------------------------------------------------------------------% 
+%Pressure in left side of shock tube at t=0 
+%Pressure in right side of shock tube at t=0 
+%Density at left side of shock tube at t=0 
+%Density at right side of shock tube at t=0 
+%Velocity in left side of shock tube at t=0 
+%Velocity in right side of shock tube at t=0 
+%Total Energy 
+%Speed of sound 
+%Time step based on CFL number 
+%-------------------------------------------------------------------------% 
+% Time integration begins 
+%-------------------------------------------------------------------------% 
+for t=dt:dt:t_final 
+%Define q & F matrix 
+%Update q matrix and flow parameters 
+end 
+%Calculation of flow parameters
+11/21/07 7:32 AM D:\My Documents\ME 523\proj22\pro_2a.m 2 of 2 
+%Reference air pressure (N/m^2) 
+%Reference air density (kg/m^3) 
+%Entropy w.r.t reference condition 
+%Mass Flow rate per unit area 
+%-------------------------------------------------------------------------% 
+% Plot the variables 
+%-------------------------------------------------------------------------% 
+'k' 'X-Coordinate (m)' 'Pressure (Pa)' 
+'k' 'X-Coordinate (m)' 'Entropy/R gas' 
+'k' 'X-Coordinate (m)' 'Velocity (m/s)' 
+'k' 'X-Coordinate (m)' 'Mach number' 
+'k' 'X-Coordinate (m)' 'Density (kg/m^3)' 
+'k' 'X-Coordinate (m)' 'Mass Flow (kg/m^2s)' 
+%-------------------------------------------------------------------------% 
+
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Friedrichs Method: CFL=0.34, number of grid points=601
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Friedrichs Method: CFL=0.34, number of grid points=401
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Friedrichs Method: CFL=0.34, number of grid points=201
+0 1 2 3 4 5 6 7 8 9 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+700 
+X-Coordinate (m) 
+Velocity (m/s) 
+Lax-Friedrichs Method:Effect of varying CFL number (or dt), n=601 
+CFL=0.05 
+CFL=0.15 
+CFL=0.35
+Anand Dhariya 
+Project 2: One Dimensional Euler equations: Lax-Wendroff II 
+ME:523 
+Part B: Lax-Wendroff: 
+Here we update the q matrix in 2 steps as follows: ......../.. .. .... ..
+..................................................... ...................................../............../.... 
+........................ .. ..
+...................... 
+The flowchart for Lax-Wendroff method is similar to Lax-Friedrichs, but we have few 
+additional steps due to artificial viscosity. 
+DEFINE CFL, ALPHA, 
+GIVE INITIAL CONDITIONS 
+t=0, START TIME INTEGRATION 
+DEFINE q AND F MATRIX 
+FIND q* AND F* 
+FIND ARTIFICIAL VISCOSITY 
+UPDATE F*, FIND q AND UPDATE FLOW 
+PARAMETERS ., u, p AND E 
+START 
+t = t + dt 
+Is t = tf ? 
+CALCULATE ADDITIONAL VARIABLES 
+LIKE ENTROPY ETC. AND PLOT 
+CALCULATE SOUND SPPED ‘a’ AND 
+CALCULATE ‘dt’ USING CFL AND ‘a’ 
+YES 
+NO 
+END
+Anand Dhariya 
+Project 2: One Dimensional Euler equations: Lax-Wendroff II 
+ME:523 
+Effect of changing spatial grid resolution: 
+The results of this method are plotted for 3 spatial resolutions, viz. n=201, n=401 and n=601 
+keeping the CFL number fixed at 0.30 and a=0.40. The effect of varying grid size is similar to 
+that in Lax-Friedrichs. It is observed that refining the grid size enables to better capture the 
+steep gradients of the solution. Thus a higher grid resolution is favorable. 
+Effect of changing CFL number: 
+Next the grid resolution and alpha are fixed at n=601 and a=0.40 respectively. The CFL 
+number is varied. Since the grid size is fixed, changing the CFL number amounts to changing 
+the time step dt. The results are seen only for the velocity, u plot since the fine variations 
+due to change in CFL are best seen in this plot. The solutions are plotted for 3 different CFL 
+numbers viz. 
+CFL=0.01 (dt= 4.4544e-007); CFL= 0.10 (dt= 4.4544e-006); CFL= 0.30 (dt= 1.3363e-005). 
+Unlike the Lax-Friedrichs method, changing CFL or dt does not produce any appreciable 
+change in most part of the solution. However it was observed that for small values of CFL 
+number very large wiggles were formed near the discountinuity. On increasing the CFL 
+number the amplitude of these wiggles reduced significantly and at CFL=0.30 the plot 
+resembled closely to the required solutions. 
+Effect of varying viscosity parameter a: 
+If a is set to zero, it is observed that very large wiggles are produced not only at 
+discontinuity but also at other steep gradients as shown in attached figure. Increasing a 
+reduces these fluctuations however, the range of values over which the CFL number and 
+hence dt can be varied is very limited. When a is increased we need to reduce the time step 
+dt and vice versa. 
+The attached velocity plot shows the effect of varying a keeping CFL number fixed at 
+CFL=0.10 and spatial grid size, n=601. The observations were made at three different values 
+of a viz. a=0.01, a=0.40 and a=0.95. The amplitude of wiggles is largest for smallest a and 
+vice versa. Only velocity is plotted to show this effect since the variations can be easily seen 
+without zooming in; however the nature is same for all other flow variables as well. 
+Conclusion: 
+The Lax-Wendroff II method is much better than the Lax-Friedrichs method at resolving the 
+shock. However, the method being dispersive produces large wiggles near the discontinuity. 
+By introducing the artificial second order viscous term, these wiggles can be contained to a 
+certain extent, however it also imposes limitations on the temporal step size dt. 
+A trade-off being necessary between the diffusive and dispersive trends, we see the 
+significance of Godunov’s theorem that monotonicity cannot be assured if discontinuities 
+are to be represented faithfully in the solution. 
+This signifies that alternative schemes like implicit and spectral methods need to be 
+implemented to capture shock accurately. 
+11/21/07 9:00 AM D:\My Documents\ME 523\proj22\pro_2b.m 1 of 2 
+%-------------------------------------------------------------------------% 
+% Project 2, Part (b):Lax-Wendroff II method to solve 1-D Euler equations 
+% ME-523 Computational Fluid Dynamics - 1 
+% by- Anand Dhariya 
+% Date: 21/11/2007 
+%-------------------------------------------------------------------------% 
+%Number of grid points 
+%Length of domain 
+%Spatial step size 
+%CFL number for stability 
+%Parameter for artificial viscosity 
+%Final time 
+%Ratio of specific heats for ideal di-atomic gas 
+%-------------------------------------------------------------------------% 
+% Define intial conditions 
+%-------------------------------------------------------------------------% 
+%Pressure in left side of shock tube at t=0 
+%Pressure in right side of shock tube at t=0 
+%Density at left side of shock tube at t=0 
+%Density at right side of shock tube at t=0 
+%Velocity in left side of shock tube at t=0 
+%Velocity in right side of shock tube at t=0 
+%Total Energy 
+%Speed of sound 
+%Time step based on CFL number 
+%-------------------------------------------------------------------------% 
+% Time integration begins 
+%-------------------------------------------------------------------------% 
+for t=dt:dt:t_final 
+%Define q & F matrix 
+%Calculate q* and flow parameters 
+%Calculate F*
+11/21/07 9:00 AM D:\My Documents\ME 523\proj22\pro_2b.m 2 of 2 
+%Calculate artificial viscosity 
+for i=1:3 
+visc(i,1:n-1)=alpha*h^2*rho(1:n-1).*abs((u(2:n)-u(1:n-1))/h).*((u(2:n)-u(1:n-1)) 
+end 
+%update F* and q matrix 
+end 
+%Calculation of flow parameters 
+%Reference air pressure (N/m^2) 
+%Reference air density (kg/m^3) 
+%Entropy w.r.t reference values 
+%Mass Flow rate per unit area 
+%-------------------------------------------------------------------------% 
+% Plot the variables 
+%-------------------------------------------------------------------------% 
+'k' 'X-Coordinate (m)' 'Pressure (Pa)' 
+'k' 'X-Coordinate (m)' 'Entropy/R gas' 
+'k' 'X-Coordinate (m)' 'Velocity (m/s)' 
+'k' 'X-Coordinate (m)' 'Mach number' 
+'k' 'X-Coordinate (m)' 'Density (kg/m^3)' 
+'k' 'X-Coordinate (m)' 'Mass Flow (kg/m^2s)' 
+%-------------------------------------------------------------------------% 
+
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+2.5 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Wendroff II Method: CFL=0.30, alpha=0.40, number of grid points=601
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+2.5 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Wendroff II Method: CFL=0.30, alpha=0.40, number of grid points=401
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+2.5 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax Wendroff II Method: CFL=0.30, alpha=0.40, number of grid points=201
+0 1 2 3 4 5 6 7 8 9 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+700 
+X-Coordinate (m) 
+Velocity (m/s) 
+Lax-Wendroff Method:Effect of varying CFL number (or dt), n=601, alpha=0.4 
+CFL=0.01 
+CFL=0.10 
+CFL=0.30
+0 5 10 
+0
+2
+4
+6
+8 
+10 
+x 104 
+X-Coordinate (m) 
+Pressure (Pa) 
+0 5 10 
+0
+1
+2
+3
+4
+5
+6 
+X-Coordinate (m) 
+Entropy/R gas 
+0 5 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+700 
+X-Coordinate (m) 
+Velocity (m/s) 
+0 5 10 
+0 
+0.5
+1 
+1.5
+2 
+2.5 
+X-Coordinate (m) 
+Mach number 
+0 5 10 
+0 
+0.2 
+0.4 
+0.6 
+0.8
+1 
+X-Coordinate (m) 
+Density (kg/m3) 
+0 5 10 
+0 
+20 
+40 
+60 
+80 
+100 
+120 
+X-Coordinate (m) 
+Mass Flow (kg/m2s) 
+Lax-Wendroff II method without artificial viscosity at n=601 and CFL=0.30
+0 1 2 3 4 5 6 7 8 9 10 
+0 
+100 
+200 
+300 
+400 
+500 
+600 
+X-Coordinate (m) 
+Velocity (m/s) 
+Lax-Wendroff Method:Effect of varying alpha, n=601, CFL=0.10 
+alpha=0.01 
+alpha=0.40 
+alpha=0.95

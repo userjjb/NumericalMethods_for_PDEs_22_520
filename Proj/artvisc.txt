@@ -1,0 +1,38 @@
+
+
+Artificial viscosity model:
+
+Solve u_t + F(u)_x= (eps u_x)_x where eps u_xx is an artificial 
+viscosity term. 
+
+How to choose eps ???
+
+Look at the steady convection - diffusion problem
+
+eps u_xx + V u_x = 0   eps: viscosity term
+                       V  : convective speed 
+
+If we approximate this with a central 2nd order scheme we know that
+
+eps >= V DX /2   (1)
+
+to have a solution free from oscillations.
+
+In the baraflux.m we use the following viscosity model:
+
+eps(j)= DX*(abs(V) + c)*(C2*sw(j) + C0)
+
+C2 is a constant, chosen in the order of 1/2, compare (1) 
+
+|V| + c is the velocity scaling (in order to get the right dimension
+        & size). The velocity scaling is chosen as the characteristic
+	speed where c is the speed of sound, also called Sspeed in 
+	the program and V is the speed of the gas.  
+
+sw(j) is a switch in order to locate the
+shock. 
+
+sw(j)=|rho(j+1) -2rho(j) + rho(j-1)|/(rho(j+1)+2rho(j)+rho(j-1)) 
+
+C0 is a "background" diffusion constant
+

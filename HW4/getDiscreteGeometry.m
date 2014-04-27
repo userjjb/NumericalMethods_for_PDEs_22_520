@@ -119,7 +119,10 @@ for(i=1:length(TRI(:,1)))
     Y2 = Nodes(N2,2);
     Y3 = Nodes(N3,2);
     
-    [TriArea] = calculateArea(X1, X2, X3, Y1, Y2, Y3);
+    S1 = ([(X2-X1), (Y2-Y1), 0]);
+    S2 = ([(X3-X2), (Y3-Y2), 0]);
+
+    TriArea = norm(cross(S1, S2))/2;
     
     if(TriArea>1e-15)
         TRINOW = [TRINOW; TRI(i,:)];

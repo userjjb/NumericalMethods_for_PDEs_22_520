@@ -68,12 +68,12 @@ A = sparse(...
 Dirichlet = [Left' Right' Top' InnerBoundary];
 Neumann = [Bottom];
 
+F(Neumann) = 0;
+
 A(Dirichlet,:)=0;
 A((Dirichlet*length(A))+Dirichlet-length(A))=1;
 F([Left' Right' Top'])=10;
 F([InnerBoundary])=100;
-
-F(Neumann) = 0;
  
 % Solve matrix
 Sol = A\F;

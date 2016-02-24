@@ -32,8 +32,8 @@ clear all;
 %
 %=========================================================================
 
-                                                    %Shape, DomainSize, ref, powerRef
-[TRI, Nodes, Top, Bottom, Left, Right, InnerBound] = getDiscreteGeometry(1, 2, 2, 2);
+                                                    %Shape, DomainX, DomainY, ref, powerRef
+[TRI, Nodes, Top, Bottom, Left, Right, InnerBound] = getDiscreteGeometry(1, 10, 10, 2.3, 3);
 for i=1:length(InnerBound)
     InnerBoundary(i) = find(and(abs(Nodes(:,1)-InnerBound(i,1))<1e-10,abs(Nodes(:,2)-InnerBound(i,2))<1e-10));
 end
@@ -62,7 +62,7 @@ end
 A = sparse(...
     reshape(repmat(TRI',3,1),NElem*9,1),...%i
     reshape(repmat(reshape(TRI',1,NElem*3),3,1),NElem*9,1),...%j
-    s,NNodes,NNodes,15*NNodes);
+    s,NNodes,NNodes,30*NNodes);
 
 % Boundary conditions
 Dirichlet = [Left' Right' Top' InnerBoundary];
@@ -72,8 +72,10 @@ F(Neumann) = 0;
 
 A(Dirichlet,:)=0;
 A((Dirichlet*length(A))+Dirichlet-length(A))=1;
-F([Left' Right' Top'])=10;
-F([InnerBoundary])=100;
+F([Left' Right' Top'])=14.5;
+F(InnerBoundary)=100;
+Sink = 1;
+
  
 % Solve matrix
 Sol = A\F;

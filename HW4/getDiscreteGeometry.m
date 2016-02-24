@@ -1,13 +1,11 @@
 
-function [TRI, Nodes, Top, Bottom, Left, Right, InnerBoundary] = getDiscreteGeometry(Shape, DomainSize, ref, powerRef)
+function [TRI, Nodes, Top, Bottom, Left, Right, InnerBoundary] = getDiscreteGeometry(Shape, XX, YY, ref, powerRef)
 
 
 %===
 % This code is a Willis hack to define the geometry for a symmetric 
 % potential flow solver that usesFEM
 %===
-XX = DomainSize; 
-YY = DomainSize;
 PowerRefine = powerRef;
 
 
@@ -137,18 +135,15 @@ Left = find(abs(Nodes(:,1) + XX) <1e-10);
 %===
 % Figures
 %===
-
-
-
-plot(OuterBoundary(:,1), OuterBoundary(:,2),'-*b')
-hold on
-plot(InnerBoundary(:,1), InnerBoundary(:,2),'-or')
-
-plot(Nodes(:,1), Nodes(:,2),'g.')
-
-axis equal
-
-figure
-trisurf(TRI, Nodes(:,1), Nodes(:,2), Nodes(:,1)*0)
-axis equal
-view([0 0 1])
+% plot(OuterBoundary(:,1), OuterBoundary(:,2),'-*b')
+% hold on
+% plot(InnerBoundary(:,1), InnerBoundary(:,2),'-or')
+% 
+% plot(Nodes(:,1), Nodes(:,2),'g.')
+% 
+% axis equal
+% 
+% figure
+% trisurf(TRI, Nodes(:,1), Nodes(:,2), Nodes(:,1)*0)
+% axis equal
+% view([0 0 1])
